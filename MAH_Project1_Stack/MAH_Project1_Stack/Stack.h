@@ -1,16 +1,19 @@
 #pragma once
 #include <ostream>
 
-template <class Type>
-struct Node {
-	Node(Type data, Node<Type>* next) 
-		: data(data), next(next) {}
-	Node* next;
-	Type data;
-};
+namespace detail {
+	template <class Type>
+	struct Node {
+		Node(Type data, Node<Type>* next)
+			: data(data), next(next) {}
+		Node* next;
+		Type data;
+	};
+}
 
-template <class Type>
-class Stack
+using namespace detail;
+
+template<class Type> class Stack
 {
 public:
 
@@ -18,8 +21,11 @@ public:
 	}
 
 	~Stack() {
-		while (!isEmpty()) {
-			pop();
+		Node<Type>* tempTop = topNode;
+		while (tempTop != NULL) {
+			tempTop = topNode->next;
+			delete topNode;
+			topNode = tempTop;
 		}
 	}
 
@@ -39,10 +45,10 @@ public:
 			return poppedData;
 		}
 
-		throw new std::exception("Stack underflow!");
+		throw std::exception("Stack underflow!");
 	}
 
-	bool isEmpty() {
+	bool isEmpty() const {
 		return length == 0;
 	}
 
