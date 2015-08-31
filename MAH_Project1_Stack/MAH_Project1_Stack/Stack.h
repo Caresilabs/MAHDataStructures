@@ -30,16 +30,20 @@ public:
 	}
 
 	Type pop() {
-		Node<Type>* popped = topNode;
-		Type poppedData = popped->data;
-		topNode = popped->next;
-		--length;
-		delete popped;
-		return poppedData;
+		if (!isEmpty()) {
+			Node<Type>* popped = topNode;
+			Type poppedData = popped->data;
+			topNode = popped->next;
+			--length;
+			delete popped;
+			return poppedData;
+		}
+
+		throw new std::exception("Stack underflow!");
 	}
 
 	bool isEmpty() {
-		return topNode == NULL;
+		return length == 0;
 	}
 
 	void print() const {
