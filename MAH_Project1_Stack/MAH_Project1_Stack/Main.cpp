@@ -24,7 +24,7 @@ int main() {
 	cout << endl << "Stack print: " << endl;
 	myStack.print(); 
 
-	// Exit program when the 'any' key is pressed.
-	system("PAUSE");
+	// Exit program when the 'enter' key is pressed.
+	cin.get();
 	return 0;
 }

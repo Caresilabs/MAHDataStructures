@@ -1,24 +1,25 @@
 #pragma once
+
 #include <ostream>
 
 namespace detail {
-	template <class Type>
-	struct Node {
-		Node(Type data, Node<Type>* next)
-			: data(data), next(next) {}
+	template <class Type> struct Node {
 		Node* next;
 		Type data;
+
+		Node(const Type& data, Node<Type>* next)
+			: data(data), next(next) {}
+
 	};
 }
 
 using namespace detail;
 
-template<class Type> class Stack
-{
+template<class Type> class Stack {
 public:
 
-	Stack() : length(0), topNode(NULL) {
-	}
+	Stack()
+		: length(0), topNode(NULL) {}
 
 	~Stack() {
 		Node<Type>* tempTop = topNode;
@@ -29,13 +30,17 @@ public:
 		}
 	}
 
-	void push(Type data) {
+	Stack(const Stack&) = delete;
+
+	Stack& operator=(const Stack&) = delete;
+
+	void push(const Type& data) {
 		Node<Type>* newNode = new Node<Type>(data, topNode);
 		topNode = newNode;
 		++length;
 	}
 
-	Type pop() {
+	const Type& pop() {
 		if (!isEmpty()) {
 			Node<Type>* popped = topNode;
 			Type poppedData = popped->data;
