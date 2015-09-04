@@ -13,7 +13,7 @@ namespace MAH_DA304_Simon_Bothen_Stack
     {
         public UppgA()
         {
-            Console.WriteLine("Starting UppgiftA! ");
+            Console.WriteLine("Starting UppgiftA!\n");
 
             Stack<int> myStack = new Stack<int>();
 
@@ -31,7 +31,7 @@ namespace MAH_DA304_Simon_Bothen_Stack
 
             Console.WriteLine("Peek again after new push -> " + myStack.Peek());
 
-            Console.WriteLine("Ending UppgiftA!\n");
+            Console.WriteLine("\nEnding UppgiftA!\n");
         }
     }
 }

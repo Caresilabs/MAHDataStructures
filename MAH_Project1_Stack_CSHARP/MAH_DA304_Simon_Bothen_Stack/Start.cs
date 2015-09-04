@@ -26,7 +26,7 @@ namespace MAH_DA304_Simon_Bothen_Stack
             UppgB uppgB = new UppgB();
 
             Console.Clear();
-            Console.WriteLine("Thank you for your time! // Simon");
+            Console.WriteLine("Thank you for your time! // Simon B");
             Console.ReadLine();
         }
     }

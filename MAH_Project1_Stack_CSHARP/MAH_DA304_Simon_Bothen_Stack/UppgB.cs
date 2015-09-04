@@ -20,14 +20,13 @@ namespace MAH_DA304_Simon_Bothen_Stack
         {
             Console.WriteLine("Starting UppgiftB! ");
 
-            String inputData;
-
+            // loop while user want to loop. Write exit to exit the loop
             Console.WriteLine("Enter text to parse:");
             while (true)
             {
-                inputData = Console.ReadLine();
+                String inputData = Console.ReadLine();
                 if (inputData.ToLower() == "exit") break;
-
+               
                 Stack<char> myStack = new Stack<char>();
 
                 StringBuilder errors = new StringBuilder();
@@ -37,21 +36,21 @@ namespace MAH_DA304_Simon_Bothen_Stack
                     {
                         myStack.Push(c);
                     }
-                    else if (endBrackets.Contains(c))
+                    else if (endBrackets.Contains(c) && !myStack.IsEmpty())
                     {
                         char previousBracket = myStack.Pop();
 
                         if (!Match(previousBracket, c))
                         {
-                            errors.AppendLine(previousBracket + " doesn't match with " + c);
+                            errors.AppendLine("\t" + previousBracket + " doesn't match with " + c);
                         }
                     }
                 }
 
                 // If my stack contains an uneven amount 
-                if (myStack.Count % 2 == 1)
+                if (myStack.Count != 0)
                 {
-                    errors.AppendLine("Bracket is missing");
+                    errors.AppendLine("\tBracket is missing");
                 }
 
 
@@ -62,6 +61,9 @@ namespace MAH_DA304_Simon_Bothen_Stack
                 }
 
                 Console.WriteLine("Text parsed...");
+
+                if (inputData.ToLower() == "clear") Console.Clear();
+
                 Console.WriteLine("Enter text to parse: (exit to exit)");
 
             }
