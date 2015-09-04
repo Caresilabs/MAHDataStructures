@@ -1,0 +1,6 @@
+C:\Users\Simon\Documents\GitHub\MAH_DataStructures\MAH_Project1_Stack_CSHARP\MAH_DA304_Simon_Bothen_Stack\bin\Debug\MAH_DA304_Simon_Bothen_Stack.exe.config
+C:\Users\Simon\Documents\GitHub\MAH_DataStructures\MAH_Project1_Stack_CSHARP\MAH_DA304_Simon_Bothen_Stack\bin\Debug\MAH_DA304_Simon_Bothen_Stack.exe
+C:\Users\Simon\Documents\GitHub\MAH_DataStructures\MAH_Project1_Stack_CSHARP\MAH_DA304_Simon_Bothen_Stack\bin\Debug\MAH_DA304_Simon_Bothen_Stack.pdb
+C:\Users\Simon\Documents\GitHub\MAH_DataStructures\MAH_Project1_Stack_CSHARP\MAH_DA304_Simon_Bothen_Stack\obj\Debug\MAH_DA304_Simon_Bothen_Stack.csprojResolveAssemblyReference.cache
+C:\Users\Simon\Documents\GitHub\MAH_DataStructures\MAH_Project1_Stack_CSHARP\MAH_DA304_Simon_Bothen_Stack\obj\Debug\MAH_DA304_Simon_Bothen_Stack.exe
+C:\Users\Simon\Documents\GitHub\MAH_DataStructures\MAH_Project1_Stack_CSHARP\MAH_DA304_Simon_Bothen_Stack\obj\Debug\MAH_DA304_Simon_Bothen_Stack.pdb

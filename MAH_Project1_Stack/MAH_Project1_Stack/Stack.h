@@ -2,18 +2,14 @@
 
 #include <ostream>
 
-namespace detail {
-	template <class Type> struct Node {
-		Node* next;
-		Type data;
+template <class Type> struct Node {
+	Node* next;
+	Type data;
 
-		Node(const Type& data, Node<Type>* next)
-			: data(data), next(next) {}
+	Node(const Type& data, Node<Type>* next)
+		: data(data), next(next) {}
 
-	};
-}
-
-using namespace detail;
+};
 
 template<class Type> class Stack {
 public:
@@ -30,6 +26,7 @@ public:
 		}
 	}
 
+	// We dont allow copying
 	Stack(const Stack&) = delete;
 
 	Stack& operator=(const Stack&) = delete;

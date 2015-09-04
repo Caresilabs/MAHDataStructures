@@ -3,6 +3,8 @@
 
 using namespace std;
 
+/// <summary> Main function </summary>
+/// <returns> Exit code </returns>
 int main() {
 	Stack<int> myStack;
 
@@ -25,6 +27,6 @@ int main() {
 	myStack.print(); 
 
 	// Exit program when the 'enter' key is pressed.
-	cin.get();
+	system("PAUSE");
 	return 0;
 }
