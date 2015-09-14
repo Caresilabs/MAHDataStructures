@@ -1,13 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿/*
+    Simon Bothén
+    DA304A HT15
+*/
+
+using System;
 
 namespace HashTable
 {
+    /// <summary>
+    /// Basically a simple test to show of that my HashTable is working 100%.
+    /// </summary>
     class ExerciseA
     {
+        /// <summary>
+        /// Default constructor run the actual test.
+        /// </summary>
         public ExerciseA()
         {
             var table = new HashTable<string, int>(15);
@@ -25,6 +32,7 @@ namespace HashTable
             int removedAge = table.Get("Tim");
 
             Console.WriteLine("Tim's age is( Hint: it's removed ): " + removedAge);
+            Console.WriteLine("Max list size in the HashTable: " + table.GetMaxCurrentPositionCollisions());
         }
     }
 }
