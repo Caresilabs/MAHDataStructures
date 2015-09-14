@@ -20,7 +20,14 @@ namespace MAH_DA304_Simon_Bothen_Stack
         /// </summary>
         private class Node
         {
+            /// <summary>
+            /// A pointer to the next node in the stack, may be null.
+            /// </summary>
             public Node Next { get; private set; }
+            
+            /// <summary>
+            /// The userdata, could be anything as long as it is of type T
+            /// </summary>
             public T Data { get; private set; }
 
             public Node(T data, Node next)
@@ -75,7 +82,14 @@ namespace MAH_DA304_Simon_Bothen_Stack
         /// <returns>The head data</returns>
         public T Peek()
         {
-            return Head.Data;
+            if (!IsEmpty())
+            {
+                return Head.Data;
+            }
+            else
+            {
+                throw new Exception("Calling @Peek() on an empty stack is not allowed.");
+            }
         }
 
         /// <summary>

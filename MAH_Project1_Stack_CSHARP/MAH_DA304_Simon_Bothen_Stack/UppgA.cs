@@ -9,6 +9,10 @@ using System;
 
 namespace MAH_DA304_Simon_Bothen_Stack
 {
+    /// <summary>
+    /// This is the first exercise which is shows a basic stack in work. It basically prints some values to the screen for confirmation 
+    /// that the stack is indeed working.
+    /// </summary>
     class UppgA
     {
         public UppgA()

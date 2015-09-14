@@ -11,11 +11,17 @@ using System.Linq;
 
 namespace MAH_DA304_Simon_Bothen_Stack
 {
+    /// <summary>
+    /// This is the second exercise which is a class that checks whenever the input parentheses has a correct match.
+    /// </summary>
     class UppgB
     {
         private char[] startBrackets = { '{', '(', '<', '[' };
         private char[] endBrackets = { '}', ')', '>', ']' };
 
+        /// <summary>
+        /// Default constructor starts the exercise
+        /// </summary>
         public UppgB()
         {
             Console.WriteLine("Starting UppgiftB! ");
@@ -36,8 +42,14 @@ namespace MAH_DA304_Simon_Bothen_Stack
                     {
                         myStack.Push(c);
                     }
-                    else if (endBrackets.Contains(c) && !myStack.IsEmpty())
+                    else if (endBrackets.Contains(c))
                     {
+                        if (myStack.IsEmpty())
+                        {
+                            errors.AppendLine("\t" + c + " is missing the starttag");
+                            continue;
+                        }
+
                         char previousBracket = myStack.Pop();
 
                         if (!Match(previousBracket, c))
@@ -72,6 +84,12 @@ namespace MAH_DA304_Simon_Bothen_Stack
 
         }
 
+        /// <summary>
+        /// Check whenever two characters match each other. Only works on parentheses!
+        /// </summary>
+        /// <param name="x">char 1</param>
+        /// <param name="y">char 2</param>
+        /// <returns>If a  match was found</returns>
         public bool Match(char x, char y)
         {
             if ((x == '(' && y == ')') || (y == '(' && x == ')'))
