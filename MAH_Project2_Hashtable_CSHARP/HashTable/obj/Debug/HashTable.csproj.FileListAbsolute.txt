@@ -1,1 +1,6 @@
 C:\Users\Simon\Documents\GitHub\MAH_DataStructures\MAH_Project2_Hashtable_CSHARP\HashTable\bin\Debug\HashTable.exe.config
+C:\Users\Simon\Documents\GitHub\MAH_DataStructures\MAH_Project2_Hashtable_CSHARP\HashTable\bin\Debug\HashTable.exe
+C:\Users\Simon\Documents\GitHub\MAH_DataStructures\MAH_Project2_Hashtable_CSHARP\HashTable\bin\Debug\HashTable.pdb
+C:\Users\Simon\Documents\GitHub\MAH_DataStructures\MAH_Project2_Hashtable_CSHARP\HashTable\obj\Debug\HashTable.csprojResolveAssemblyReference.cache
+C:\Users\Simon\Documents\GitHub\MAH_DataStructures\MAH_Project2_Hashtable_CSHARP\HashTable\obj\Debug\HashTable.exe
+C:\Users\Simon\Documents\GitHub\MAH_DataStructures\MAH_Project2_Hashtable_CSHARP\HashTable\obj\Debug\HashTable.pdb
