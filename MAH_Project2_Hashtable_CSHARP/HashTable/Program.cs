@@ -26,7 +26,7 @@ namespace HashTable
 
             Console.WriteLine("============ Exercise B ===========");
             ExerciseB exB = new ExerciseB();
-            Console.WriteLine("Bye! :)");
+            Console.WriteLine("Bye! Have a nice day :)");
             Console.Read();
         }
     }

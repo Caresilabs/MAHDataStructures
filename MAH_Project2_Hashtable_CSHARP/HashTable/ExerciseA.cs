@@ -29,10 +29,13 @@ namespace HashTable
             Console.WriteLine("Putin's age is: " + putinsAge);
 
             table.Remove("Tim");
-            int removedAge = table.Get("Tim");
 
-            Console.WriteLine("Tim's age is( Hint: it's removed ): " + removedAge);
-            Console.WriteLine("Max list size in the HashTable: " + table.GetMaxCurrentPositionCollisions());
+            if (!table.Contains("Tim"))
+            {
+                Console.WriteLine("Tim's age is removed!");
+            }
+
+            Console.WriteLine("Max list size in the HashTable (should be low!): " + table.GetMaxCurrentPositionCollisions());
         }
     }
 }

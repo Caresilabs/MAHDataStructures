@@ -7,6 +7,13 @@ using System.Linq;
 
 namespace HashTable
 {
+    /// ===========================================
+    /// NOTE FOR TEACHER: I used "table[hashIndex].SingleOrDefault(x => x.Key.Equals(key));" instead of your suggestion
+    /// "table[hashIndex].Find(new Entry(key, null))" because this skips the unnecessary allocation and no override is needed for @Entry::Equals().
+    /// 
+    /// Cheers!
+    /// ===========================================
+
     /// <summary>
     /// A HashTable is a fast way of accessing data. Simply map a key to a value and use @Get(Key) to retrieve it.
     /// Be sure to set a appropriate size or else you will loose performance and then it's recommended to use something else than a HashTable.
@@ -42,7 +49,7 @@ namespace HashTable
         /// <summary>
         /// How many objects are in the HashTable? Ask this mate kindly and you will know.
         /// </summary>
-        public int Count { get; private set; }
+        public int Count { get { return InsertionOrder.Count; } }
 
 
         /// <summary>
@@ -78,9 +85,7 @@ namespace HashTable
             {
                 var newEntry = new Entry(key, value);
                 table[hashIndex].AddLast(newEntry);
-
                 InsertionOrder.AddLast(newEntry.Value);
-                ++Count;
             }
             else
             {
@@ -105,8 +110,6 @@ namespace HashTable
             // Remove it from the table
             table[hashIndex].Remove(entry);
 
-            --Count;
-
             return true;
         }
 
@@ -123,7 +126,7 @@ namespace HashTable
                 var entry = table[hashIndex].SingleOrDefault(x => x.Key.Equals(key));
                 return entry.Value;
             }
-            return default(V); // Test me with ints
+            return default(V);
         }
 
         /// <summary>

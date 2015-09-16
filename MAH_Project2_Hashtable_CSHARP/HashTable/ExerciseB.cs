@@ -68,7 +68,7 @@ namespace HashTable
         public void PrintOptions()
         {
             Console.WriteLine("Welcome to Super Mega Translator 2015 Simulator!");
-            Console.WriteLine("[Disclaimer: This translator is not reliable in any way. Therefore only use it to get an grade.]\n\n");
+            Console.WriteLine("[Disclaimer: This translator is not reliable in any way. Therefore only use it for fun.]\n\n");
 
             Console.WriteLine("\tChoose an option:\n\t1. Set/Change a word\n\t2. Translate sentence\n\t3. Exit\n");
             Console.Write("# ");
