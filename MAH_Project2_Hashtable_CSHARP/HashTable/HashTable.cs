@@ -25,37 +25,13 @@ namespace HashTable
             /// <summary>
             /// The value that is stored the the Keys position in the HashTable.
             /// </summary>
-            public V Value { get; private set; }
+            public V Value { get; internal set; }
 
             public Entry(K key, V value)
             {
                 Key = key;
                 this.Value = value;
             }
-
-            /*
-            /// <summary>
-            /// Compares two entries keys with each other. If it's not a Entry then it will return false;
-            /// </summary>
-            /// <param name="obj">Entry to compare</param>
-            /// <returns>If the equals each other</returns>
-            public override bool Equals(object obj)
-            {
-                var rhs = obj as Entry;
-                if (rhs != null)
-                    return Key.Equals(rhs.Key);
-                return false;
-            }
-
-            /// <summary>
-            /// Only here because visual studio wants it.
-            /// </summary>
-            /// <returns>Hashcode</returns>
-            public override int GetHashCode()
-            {
-                return base.GetHashCode();
-            }
-            */
         }
 
         /// <summary>
@@ -72,7 +48,7 @@ namespace HashTable
         /// <summary>
         /// The actual table the Key,Value pair are stored.
         /// </summary>
-        private List<Entry>[] table;
+        private LinkedList<Entry>[] table;
 
         /// <summary>
         /// Creates a new HashTable
@@ -81,27 +57,42 @@ namespace HashTable
         public HashTable(int size = 10)
         {
             this.InsertionOrder = new LinkedList<V>();
-            this.table = new List<Entry>[size];
+            this.table = new LinkedList<Entry>[size];
 
             for (int i = 0; i < size; i++)
-                table[i] = new List<Entry>();
+                table[i] = new LinkedList<Entry>();
 
-        }        /// <summary>
-        /// Put a Value in the hashtable with the Key.
+        }
+
+        /// <summary>
+        /// Put a Value in the hashtable with the Key. If the key already exists then we change it with input value
         /// </summary>
         /// <param name="key">The key</param>
-        /// <param name="value">The value to store in the HashTable</param>        public void Put(K key, V value)
+        /// <param name="value">The value to store in the HashTable</param>
+        public void Put(K key, V value)
         {
             int hashIndex = HashIndex(key);
-            var newEntry = new Entry(key, value);
-            table[hashIndex].Add(newEntry);
 
-            InsertionOrder.AddLast(newEntry.Value);
-            ++Count;
-        }        /// <summary>
+            // If the key is not in the HashTable then we add it, else we change it
+            if (!Contains(key))
+            {
+                var newEntry = new Entry(key, value);
+                table[hashIndex].AddLast(newEntry);
+
+                InsertionOrder.AddLast(newEntry.Value);
+                ++Count;
+            }
+            else
+            {
+                table[hashIndex].SingleOrDefault().Value = value;
+            }
+        }
+
+        /// <summary>
         /// Removes the value that is stored with the key.
         /// </summary>
-        /// <returns>If it exist and was deleted</returns>        public bool Remove(K key)
+        /// <returns>If it exist and was deleted</returns>
+        public bool Remove(K key)
         {
             if (!Contains(key))
                 return false;
@@ -117,11 +108,14 @@ namespace HashTable
             --Count;
 
             return true;
-        }        /// <summary>
+        }
+
+        /// <summary>
         /// Finds the value that matches the key. OBS! if it is not found it will return default(V). So if you use value types such as int be sure to
         /// call @Contains() before or else you will get an 0 as return;
         /// </summary>
-        /// <returns>The value that was found with the key</returns>        public V Get(K key)
+        /// <returns>The value that was found with the key</returns>
+        public V Get(K key)
         {
             int hashIndex = HashIndex(key);
             if (Contains(key))
@@ -130,20 +124,27 @@ namespace HashTable
                 return entry.Value;
             }
             return default(V); // Test me with ints
-        }        /// <summary>
+        }
+
+        /// <summary>
         /// Does this HashTable contains a value that matches the input key? I don't know but this function sure do.
         /// </summary>
-        /// <returns>If there is a value that matches the key</returns>        public bool Contains(K key)
+        /// <returns>If there is a value that matches the key</returns>
+        public bool Contains(K key)
         {
             int hashIndex = HashIndex(key);
             return table[hashIndex].Any(x => x.Key.Equals(key));
-        }        /// <summary>
+        }
+
+        /// <summary>
         /// Returns the max size of the any of the lists in the table.
         /// </summary>
-        /// <returns></returns>        public int GetMaxCurrentPositionCollisions()
+        /// <returns></returns>
+        public int GetMaxCurrentPositionCollisions()
         {
             return table.Max(x => x.Count);
-        }
+        }
+
         /// <summary>
         /// A simlpe private HashFunction that converts a hashCode to a position in the hash array;
         /// </summary>

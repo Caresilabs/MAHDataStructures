@@ -17,7 +17,7 @@ namespace HashTable
         /// </summary>
         public ExerciseB()
         {
-            HashTable<string, string> dictionary = new HashTable<string, string>();
+            var dictionary = new HashTable<string, string>();
 
             // Print
             PrintOptions();
