@@ -89,7 +89,7 @@ namespace HashTable
             }
             else
             {
-                table[hashIndex].SingleOrDefault().Value = value;
+                table[hashIndex].SingleOrDefault(x => x.Key.Equals(key)).Value = value;
             }
         }
 

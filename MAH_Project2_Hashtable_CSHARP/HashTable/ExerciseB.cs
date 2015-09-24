@@ -31,15 +31,15 @@ namespace HashTable
                     case "1":
                         // Change/Put new translation in the HashTable.
                         Console.Write("\tEnter the word: ");
-                        string key = Console.ReadLine();
+                        string key = Console.ReadLine().Trim();
                         Console.Write("\tEnter the translation: ");
-                        string value = Console.ReadLine();
+                        string value = Console.ReadLine().Trim();
                         dictionary.Put(key, value);
                         break;
                     case "2":
                         // Translate word by word
                         Console.WriteLine("\tPlease enter a sentence you want to translate:");
-                        string[] toTranslate = Console.ReadLine().Split(' ', '.', '!', '?');
+                        string[] toTranslate = Console.ReadLine().Trim().Split(' ', '.', '!', '?');
                         Console.Write("\t=> ");
                         foreach (string word in toTranslate)
                         {
