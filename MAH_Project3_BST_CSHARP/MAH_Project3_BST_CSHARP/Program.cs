@@ -29,11 +29,13 @@ namespace MAH_Project3_BST_CSHARP
 
             // We get the ordered list and display it.
             var orderedList = bTree.InorderTraversal();
-            foreach (var item in orderedList)
             {
-                Console.Write(item.ToString() + " ");
+                foreach (var item in orderedList)
+                {
+                    Console.Write(item.ToString() + " ");
+                }
+                Console.WriteLine();
             }
-            Console.WriteLine();
 
             Console.WriteLine("Does it contain 88: " + bTree.Contains(88));
 
