@@ -26,12 +26,25 @@ namespace MAH_Project3_BST_CSHARP
                     Root = new TreeNode(null, value);
                 }
 
-                Root.Add(value);
+                TreeNode node = Root.FindValue(value);
+                if (node != null)
+                    node.Set(value);
+
                 ++Count;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message); //"Value already exists");
+            }
+        }
+
+        public void Remove(T value)
+        {
+            if (Root != null)
+            {
+                var toRemove = Root.FindValue(value);
+                if (toRemove != null)
+                    toRemove.Remove();
             }
         }
 
@@ -44,10 +57,11 @@ namespace MAH_Project3_BST_CSHARP
             return false;
         }
 
-        public void Display()
+        public string Display()
         {
-            //if (Root != null)
-                //Root.Display();
+            if (Root != null)
+                return Root.Display(Root);
+            return "";
         }
 
         private class TreeNode
@@ -77,8 +91,8 @@ namespace MAH_Project3_BST_CSHARP
                 this.Parent = parent;
                 this.Type = NodeType.Node;
             }
-
-            public void Set(T value) 
+            
+            public void Set(T value)
             {
                 if (Type == NodeType.Leaf)
                 {
@@ -88,7 +102,14 @@ namespace MAH_Project3_BST_CSHARP
                 }
 
                 this.Data = value;
+            }
 
+            public void TransformToLeaf()
+            {
+                this.Type = NodeType.Leaf;
+                this.Left = null;
+                this.Right = null;
+                this.Data = default(T);
             }
 
             public TreeNode FindValue(T value)
@@ -114,14 +135,71 @@ namespace MAH_Project3_BST_CSHARP
                 return null;
             }
 
+            private TreeNode FindParent(T value, ref TreeNode parent) // Not out?
+            {
+                var searchedNode = FindValue(value);
+                parent = searchedNode.Parent;
+                return searchedNode;
+            }
+
             public void Add(T value)
             {
-                TreeNode searchedNode = FindValue(value);
-
-                searchedNode.Set(value);
+             
 
             }
+
+            public void Remove()
+            {
+                // The value isnt found, do nothing.
+                if (IsLeaf())
+                    return;
+
+                // Case 1
+                if (!HasChildrens())
+                {
+                    if (Parent != null)
+                        TransformToLeaf();
+
+                    return;
+                }
+
+                // Case 3: 1 children
+                if (!Left.IsLeaf() && !Right.IsLeaf())
+                {
+
+                }
+            }
             
+
+            public bool HasChildrens()
+            {
+                if (Type == NodeType.Leaf) return false;
+                return Left.Type != NodeType.Leaf || Right.Type != NodeType.Leaf;
+            }
+
+            public bool IsLeaf()
+            {
+                return Type == NodeType.Leaf;
+            }
+
+            public string Display(TreeNode node)
+            {
+                if (node.Type == NodeType.Leaf)
+                    return "empty";
+
+                if (!HasChildrens())
+                    return node.Data.ToString();
+
+                if ((!node.Left.IsLeaf()) && (node.Right.IsLeaf()))
+                    return "" + node.Data + "(" + Display(node.Left) + ", _)";
+
+                if ((!node.Right.IsLeaf()) && (node.Left.IsLeaf()))
+                    return "" + node.Data + "(_, " + Display(node.Right) + ")";
+
+                return node.Data + "(" + Display(node.Left) + ", " + Display(node.Right) + ")";
+            }
+
+          
         }
     }
 
