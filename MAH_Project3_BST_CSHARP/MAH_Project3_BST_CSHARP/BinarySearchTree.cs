@@ -1,38 +1,52 @@
-﻿using MAH_Project3_BST_CSHARP;
+﻿/*
+*   Simon Bothén
+*   DA304A HT15
+*/
+
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MAH_Project3_BST_CSHARP
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class BinarySearchTree<T> where T : IComparable
     {
-        private TreeNode Root { get; set; }
-        private int Count { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int  Count { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        private TreeNode Root { get; set; }
+
+        /// <summary>
+        /// Creates a Binary Search Tree. A default root node is created without a parent.
+        /// </summary>
         public BinarySearchTree()
         {
-
+            Root = new TreeNode(null);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
         public void Insert(T value)
         {
             try
             {
-                // Create root if not exists
-                if (Root == null)
-                    Root = new TreeNode(null);
-                
                 TreeNode node = Root.FindValue(value);
 
                 // If value already exists
                 if (node.Type == TreeNode.NodeType.Node)
                     throw new Exception("Value already exists");
-                
-                node.Set(value);
 
+                node.Set(value);
                 ++Count;
             }
             catch (Exception e)
@@ -41,53 +55,86 @@ namespace MAH_Project3_BST_CSHARP
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
         public void Remove(T value)
         {
-            if (Root != null)
+            var toRemove = Root.FindValue(value);
+            if (toRemove.Type == TreeNode.NodeType.Node)
             {
-                var toRemove = Root.FindValue(value);
-                if (toRemove != null)
-                    toRemove.Remove();
+                toRemove.Remove();
+                --Count;
             }
         }
 
-        public void InorderTraversal()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public ICollection<T> InorderTraversal()
         {
-            if (Root != null)
-            {
-                Root.InorderTraversal();
-                Console.WriteLine();
-            }
+            List<T> list = new List<T>();
+            Root.InorderTraversal(list);
+            return list;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public bool Contains(T value)
         {
-            if (Root != null)
-            {
-                return Root.FindValue(value).Type == TreeNode.NodeType.Node;
-            }
-            return false;
+            return Root.FindValue(value).Type == TreeNode.NodeType.Node;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public string Display()
         {
-            if (Root != null)
-                return Root.Display();
-            return "";
+            return Root.Display();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private class TreeNode
         {
+            /// <summary>
+            /// 
+            /// </summary>
             public enum NodeType
             {
                 Node, Leaf
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
             public TreeNode Left { get; private set; }
+
+            /// <summary>
+            /// 
+            /// </summary>
             public TreeNode Right { get; private set; }
+
+            /// <summary>
+            /// 
+            /// </summary>
             public TreeNode Parent { get; private set; }
+
+            /// <summary>
+            /// 
+            /// </summary>
             public NodeType Type { get; private set; }
 
+            /// <summary>
+            /// 
+            /// </summary>
             public T Data { get; private set; }
 
             public TreeNode(TreeNode parent)
@@ -96,8 +143,13 @@ namespace MAH_Project3_BST_CSHARP
                 this.Type = NodeType.Leaf;
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="value"></param>
             public void Set(T value)
             {
+                // If we are a leaf, then make it a node.
                 if (Type == NodeType.Leaf)
                 {
                     this.Left = new TreeNode(this);
@@ -108,6 +160,9 @@ namespace MAH_Project3_BST_CSHARP
                 this.Data = value;
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
             public void TransformToLeaf()
             {
                 this.Type = NodeType.Leaf;
@@ -116,12 +171,15 @@ namespace MAH_Project3_BST_CSHARP
                 this.Data = default(T);
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="value"></param>
+            /// <returns></returns>
             public TreeNode FindValue(T value)
             {
                 if (Type == NodeType.Leaf)
-                {
                     return this;
-                }
 
                 if (value.Equals(Data))
                 {
@@ -131,101 +189,106 @@ namespace MAH_Project3_BST_CSHARP
                 {
                     return Right.FindValue(value);
                 }
-                else if (value.IsLessThan(Data))
+                else // We know for sure that Left is the only one left. No need to do: "else if (value.IsLessThan(Data))"
                 {
                     return Left.FindValue(value);
                 }
-
-                return null;
             }
 
-            private TreeNode FindParent(T value, ref TreeNode parent) // Not out?
-            {
-                var searchedNode = FindValue(value);
-                parent = searchedNode.Parent;
-                return searchedNode;
-            }
-
+            /// <summary>
+            /// 
+            /// </summary>
             public void Remove()
             {
-                // The value isnt found, do nothing.
+                // The value is not found, do nothing.
                 if (IsLeaf())
                     return;
 
-                // Case 1
+                // Case 1: 0 Children: Just remove
                 if (!HasChildrens())
                 {
-                    if (Parent != null)
-                        TransformToLeaf();
-
+                    TransformToLeaf();
                     return;
                 }
 
-                // Case 3: 2 children
+                // Case 3: 2 children: Swap with LeftMostNodeOnRight
                 if (!Left.IsLeaf() && !Right.IsLeaf())
                 {
-                    // Swap with LeftMostNodeOnRight
-                    
                     TreeNode toSwap = LeftMostNodeOnRight();
-                    var parent = toSwap.Parent;
 
-                    this.Set(toSwap.Data);
+                    Set(toSwap.Data);
                     toSwap.TransformToLeaf();
-
                     return;
                 }
 
-                // Case 2: 1 children
+                // Case 2: 1 children: Swap with child then make delete value to a Leaf
                 if (!Left.IsLeaf())
                 {
-                    this.Set(Left.Data);
-                    this.Left.TransformToLeaf(); 
+                    Set(Left.Data);
+                    Left.TransformToLeaf();
                 }
                 else if (!Right.IsLeaf())
                 {
-                    this.Set(Right.Data);
-                    this.Right.TransformToLeaf();
+                    Set(Right.Data);
+                    Right.TransformToLeaf();
                 }
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <returns></returns>
             public TreeNode LeftMostNodeOnRight()
             {
+                var nodeToDelete = Right;
 
-                var nodeToDelete = this.Right;
-
-                while (nodeToDelete.Left.HasChildrens())
+                while (!nodeToDelete.Left.IsLeaf())
                 {
                     nodeToDelete = nodeToDelete.Left;
                 }
-                
+
                 return nodeToDelete;
             }
 
-
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <returns></returns>
             public bool HasChildrens()
             {
                 if (Type == NodeType.Leaf) return false;
                 return Left.Type != NodeType.Leaf || Right.Type != NodeType.Leaf;
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <returns></returns>
             public bool IsLeaf()
             {
                 return Type == NodeType.Leaf;
             }
 
-            public void InorderTraversal()
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="list"></param>
+            public void InorderTraversal(ICollection<T> list)
             {
-                // TODO
                 if (IsLeaf())
                     return;
 
-                Left.InorderTraversal();
+                Left.InorderTraversal(list);
 
-                Console.Write(Data.ToString() + " ");
+                list.Add(Data);
 
-                Right.InorderTraversal();
+                Right.InorderTraversal(list);
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <returns></returns>
             public string Display()
             {
                 if (Type == NodeType.Leaf)
@@ -235,18 +298,19 @@ namespace MAH_Project3_BST_CSHARP
                     return Data.ToString();
 
                 if ((!Left.IsLeaf()) && (Right.IsLeaf()))
-                    return "" + Data + "(" + Left.Display() + ", _)";
+                    return Data + "(" + Left.Display() + ", _)";
 
                 if ((!Right.IsLeaf()) && (Left.IsLeaf()))
-                    return "" + Data + "(_, " + Right.Display() + ")";
+                    return Data + "(_, " + Right.Display() + ")";
 
                 return Data + "(" + Left.Display() + ", " + Right.Display() + ")";
             }
-
-           
         }
     }
 
+    /// <summary>
+    /// Used to compare two values of Type T; value '<' other is not supported.
+    /// </summary>
     public static class BinarySearchTreeExtensions
     {
         public static bool IsGreaterThan<T>(this T value, T other) where T : IComparable
