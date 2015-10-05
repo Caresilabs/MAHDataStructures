@@ -44,6 +44,10 @@ namespace MAH_Project3_BST_CSHARP
 
                 Console.WriteLine("Removing 88");
                 bTree.Remove(88);
+
+                Console.WriteLine("Removing 33");
+                bTree.Remove(33);
+
             }
 
             // ==== Assert ==== //
