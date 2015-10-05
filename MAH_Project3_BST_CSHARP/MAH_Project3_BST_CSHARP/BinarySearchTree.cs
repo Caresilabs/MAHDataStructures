@@ -17,7 +17,7 @@ namespace MAH_Project3_BST_CSHARP
         /// <summary>
         /// 
         /// </summary>
-        public int  Count { get; private set; }
+        public int Count { get; private set; }
 
         /// <summary>
         /// 
@@ -25,11 +25,11 @@ namespace MAH_Project3_BST_CSHARP
         private TreeNode Root { get; set; }
 
         /// <summary>
-        /// Creates a Binary Search Tree. A default root node is created without a parent.
+        /// Creates a Binary Search Tree. A default root node is created.
         /// </summary>
         public BinarySearchTree()
         {
-            Root = new TreeNode(null);
+            Root = new TreeNode();
         }
 
         /// <summary>
@@ -61,10 +61,11 @@ namespace MAH_Project3_BST_CSHARP
         /// <param name="value"></param>
         public void Remove(T value)
         {
-            var toRemove = Root.FindValue(value);
+            TreeNode parent = null;
+            var toRemove = Root.FindValue(value, ref parent);
             if (toRemove.Type == TreeNode.NodeType.Node)
             {
-                toRemove.Remove();
+                toRemove.Remove(parent);
                 --Count;
             }
         }
@@ -77,6 +78,17 @@ namespace MAH_Project3_BST_CSHARP
         {
             List<T> list = new List<T>();
             Root.InorderTraversal(list);
+            return list;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public ICollection<T> InorderTraversal(T value)
+        {
+            List<T> list = new List<T>();
+            Root.FindValue(value).InorderTraversal(list);
             return list;
         }
 
@@ -125,11 +137,6 @@ namespace MAH_Project3_BST_CSHARP
             /// <summary>
             /// 
             /// </summary>
-            public TreeNode Parent { get; private set; }
-
-            /// <summary>
-            /// 
-            /// </summary>
             public NodeType Type { get; private set; }
 
             /// <summary>
@@ -137,9 +144,8 @@ namespace MAH_Project3_BST_CSHARP
             /// </summary>
             public T Data { get; private set; }
 
-            public TreeNode(TreeNode parent)
+            public TreeNode()
             {
-                this.Parent = Parent;
                 this.Type = NodeType.Leaf;
             }
 
@@ -152,12 +158,20 @@ namespace MAH_Project3_BST_CSHARP
                 // If we are a leaf, then make it a node.
                 if (Type == NodeType.Leaf)
                 {
-                    this.Left = new TreeNode(this);
-                    this.Right = new TreeNode(this);
+                    this.Left = new TreeNode();
+                    this.Right = new TreeNode();
                     this.Type = NodeType.Node;
                 }
 
                 this.Data = value;
+            }
+
+            public void Set(TreeNode other)
+            {
+                this.Left = other.Left;
+                this.Right = other.Right;
+                this.Type = other.Type;
+                this.Data = other.Data;
             }
 
             /// <summary>
@@ -195,10 +209,31 @@ namespace MAH_Project3_BST_CSHARP
                 }
             }
 
+            public TreeNode FindValue(T value, ref TreeNode parent)
+            {
+                if (Type == NodeType.Leaf)
+                    return this;
+
+                if (value.Equals(Data))
+                {
+                    return this;
+                }
+                else if (value.IsGreaterThan(Data))
+                {
+                    parent = this;
+                    return Right.FindValue(value, ref parent);
+                }
+                else // We know for sure that Left is the only one left. No need to do: "else if (value.IsLessThan(Data))"
+                {
+                    parent = this;
+                    return Left.FindValue(value, ref parent);
+                }
+            }
+
             /// <summary>
             /// 
             /// </summary>
-            public void Remove()
+            public void Remove(TreeNode parent)
             {
                 // The value is not found, do nothing.
                 if (IsLeaf())
@@ -214,9 +249,16 @@ namespace MAH_Project3_BST_CSHARP
                 // Case 3: 2 children: Swap with LeftMostNodeOnRight
                 if (!Left.IsLeaf() && !Right.IsLeaf())
                 {
-                    TreeNode toSwap = LeftMostNodeOnRight();
+                    TreeNode toSwapParent = null;
+                    TreeNode toSwap = LeftMostNodeOnRight(ref toSwapParent);
 
                     Set(toSwap.Data);
+                    
+                    if (toSwap.Right.Type == NodeType.Node)
+                    {
+                        toSwapParent.Left = toSwap.Right;
+                    }
+
                     toSwap.TransformToLeaf();
                     return;
                 }
@@ -224,13 +266,29 @@ namespace MAH_Project3_BST_CSHARP
                 // Case 2: 1 children: Swap with child then make delete value to a Leaf
                 if (!Left.IsLeaf())
                 {
-                    Set(Left.Data);
-                    Left.TransformToLeaf();
+                    if (parent == null)
+                    {
+                        Set(Left);
+                        return;
+                    }
+
+                    if (parent.Left == this)
+                        parent.Left = Left;
+                    else if (parent.Right == this)
+                        parent.Right = Left;
                 }
                 else if (!Right.IsLeaf())
                 {
-                    Set(Right.Data);
-                    Right.TransformToLeaf();
+                    if (parent == null)
+                    {
+                        Set(Right);
+                        return;
+                    }
+
+                    if (parent.Left == this)
+                        parent.Left = Right;
+                    else if (parent.Right == this)
+                        parent.Right = Right;
                 }
             }
 
@@ -238,12 +296,14 @@ namespace MAH_Project3_BST_CSHARP
             /// 
             /// </summary>
             /// <returns></returns>
-            public TreeNode LeftMostNodeOnRight()
+            public TreeNode LeftMostNodeOnRight(ref TreeNode parent)
             {
+                parent = this;
                 var nodeToDelete = Right;
 
                 while (!nodeToDelete.Left.IsLeaf())
                 {
+                    parent = nodeToDelete;
                     nodeToDelete = nodeToDelete.Left;
                 }
 

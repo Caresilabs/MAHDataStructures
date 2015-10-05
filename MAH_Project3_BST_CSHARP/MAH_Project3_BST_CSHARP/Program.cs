@@ -18,11 +18,11 @@ namespace MAH_Project3_BST_CSHARP
             BinarySearchTree<int> bTree = new BinarySearchTree<int>();
 
             // Act
-            bTree.Insert(5);
+            //bTree.Insert(5);
             bTree.Insert(88);
-            bTree.Insert(2);
+           /// bTree.Insert(2);
             bTree.Insert(33);
-            bTree.Insert(123);
+            //bTree.Insert(123);
 
             // Draw Tree
             Console.WriteLine(bTree.Display());
