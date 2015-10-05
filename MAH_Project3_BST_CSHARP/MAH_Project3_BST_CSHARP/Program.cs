@@ -7,26 +7,61 @@ using System;
 
 namespace MAH_Project3_BST_CSHARP
 {
+    /// <summary>
+    /// Main class for testing the @BinarySearchTree
+    /// </summary>
     class Program
     {
         /// <summary>
-        /// 
+        /// Runs a basic test of a Binary Search Tree
         /// </summary>
         static void Main(string[] args)
         {
-            // Assign
+            // ==== Assign ==== //
             BinarySearchTree<int> bTree = new BinarySearchTree<int>();
 
-            // Act
-            //bTree.Insert(5);
-            bTree.Insert(88);
-           /// bTree.Insert(2);
-            bTree.Insert(33);
-            //bTree.Insert(123);
+            // ==== Act ==== //
+            {
+                // The Tree:
+                //
+                //     88
+                //  33    122
+                // 12    90
+                //
 
-            // Draw Tree
-            Console.WriteLine(bTree.Display());
+                bTree.Insert(88);
+                bTree.Insert(33);
+                bTree.Insert(122);
+                bTree.Insert(90);
+                bTree.Insert(12);
 
+                // Draw Tree
+                Console.WriteLine("\nDisplay the tree:");
+                Console.WriteLine(bTree.Display());
+                PrintOrdered(bTree);
+
+                Console.WriteLine("Does it contain 88: " + bTree.Contains(88) + "\n");
+
+                Console.WriteLine("Removing 88");
+                bTree.Remove(88);
+            }
+
+            // ==== Assert ==== //
+            {
+                Console.WriteLine("Does it contain 88: " + bTree.Contains(88));
+
+                // Draw Tree
+                Console.WriteLine("\nDisplay the tree:");
+                Console.WriteLine(bTree.Display());
+                PrintOrdered(bTree);
+            }
+
+            // Wait for input before closing.
+            Console.ReadLine();
+        }
+
+        private static void PrintOrdered(BinarySearchTree<int> bTree)
+        {
             // We get the ordered list and display it.
             var orderedList = bTree.InorderTraversal();
             {
@@ -36,18 +71,6 @@ namespace MAH_Project3_BST_CSHARP
                 }
                 Console.WriteLine();
             }
-
-            Console.WriteLine("Does it contain 88: " + bTree.Contains(88));
-
-            Console.WriteLine("Removing 88");
-            bTree.Remove(88);
-
-            // Assert
-            Console.WriteLine("Does it contain 88: " + bTree.Contains(88));
-            Console.WriteLine(bTree.Display());
-
-            // Wait for input before closing.
-            Console.ReadLine();
         }
     }
 }
