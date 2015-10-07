@@ -15,7 +15,7 @@ namespace MAH_Project3_BST_CSHARP
     public class BinarySearchTree<T> where T : IComparable
     {
         /// <summary>
-        /// The total amount of nodes, excluding leafs.
+        /// The total amount of nodes in the tree, excluding leafs.
         /// </summary>
         public int Count { get; private set; }
 
@@ -42,7 +42,7 @@ namespace MAH_Project3_BST_CSHARP
             {
                 TreeNode node = Root.FindValue(value);
 
-                // If value already exists
+                // If value already exists, throw an exception
                 if (node.Type == TreeNode.NodeType.Node)
                     throw new Exception("Value already exists");
 
@@ -263,7 +263,7 @@ namespace MAH_Project3_BST_CSHARP
                     TreeNode toSwap = LeftMostNodeOnRight(ref toSwapParent);
 
                     Set(toSwap.Data);
-                    // TODO
+
                     if (toSwap.Right.Type == NodeType.Node)
                     {
                         toSwapParent.Left = toSwap.Right;
@@ -276,6 +276,7 @@ namespace MAH_Project3_BST_CSHARP
                 // Case 2: 1 children: Swap with child then make delete value to a Leaf
                 if (!Left.IsLeaf())
                 {
+                    // if the parent is null, it's a root and then we only replace the left node with the root
                     if (parent == null)
                     {
                         Set(Left);
@@ -289,6 +290,7 @@ namespace MAH_Project3_BST_CSHARP
                 }
                 else if (!Right.IsLeaf())
                 {
+                    // if the parent is null, it's a root and then we only replace the right node with the root
                     if (parent == null)
                     {
                         Set(Right);
