@@ -22,37 +22,27 @@ namespace MAH_Project3_BST_CSHARP
 
             // ==== Act ==== //
             {
-                // The Tree:
-                //
-                //     88
-                //  33    122
-                // 12    90
-                //
+                // Insert
+                bTree.Insert(50);
+                bTree.Insert(30);
+                bTree.Insert(70);
+                bTree.Insert(15);
+                bTree.Insert(45);
+                bTree.Insert(55);
+                bTree.Insert(85);
+                bTree.Insert(19);
+                bTree.Insert(75);
+                bTree.Insert(77);
+                bTree.Insert(17);
 
-                bTree.Insert(88);
-                bTree.Insert(33);
-                bTree.Insert(122);
-                bTree.Insert(90);
-                bTree.Insert(12);
-
-                // Draw Tree
-                Console.WriteLine("\nDisplay the tree:");
-                Console.WriteLine(bTree.Display());
-                PrintOrdered(bTree);
-
-                Console.WriteLine("Does it contain 88: " + bTree.Contains(88) + "\n");
-
-                Console.WriteLine("Removing 88");
-                bTree.Remove(88);
-
-                Console.WriteLine("Removing 33");
-                bTree.Remove(33);
-
+                // Remove
+                bTree.Remove(85);
+                bTree.Remove(70);
             }
 
             // ==== Assert ==== //
             {
-                Console.WriteLine("Does it contain 88: " + bTree.Contains(88));
+                Console.WriteLine("Does it contain 55: " + bTree.Contains(55));
 
                 // Draw Tree
                 Console.WriteLine("\nDisplay the tree:");

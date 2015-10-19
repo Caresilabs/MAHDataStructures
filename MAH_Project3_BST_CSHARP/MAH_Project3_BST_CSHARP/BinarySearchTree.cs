@@ -266,7 +266,9 @@ namespace MAH_Project3_BST_CSHARP
 
                     if (toSwap.Right.Type == NodeType.Node)
                     {
-                        toSwapParent.Left = toSwap.Right;
+                        // Remove the node we just swapped. It can safley be removed.
+                        toSwap.Remove(toSwapParent);
+                        //toSwapParent.Left = toSwap.Right;
                     }
 
                     toSwap.TransformToLeaf();
